@@ -66,7 +66,7 @@ public class TestService {
 
 name：lock的name，对应redis的key值。默认为：类名+方法名
 
-lockType：锁的类型，目前支持（可重入锁，公平锁，读写锁）。默认为：公平锁
+lockType：锁的类型，目前支持（可重入锁，公平锁，读写锁）。默认为：可重入锁
 
 waitTime：获取锁最长等待时间。默认为：60s。同时也可通过spring.klock.waitTime统一配置
 
