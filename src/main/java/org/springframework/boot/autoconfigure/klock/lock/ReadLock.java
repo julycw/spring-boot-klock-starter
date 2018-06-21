@@ -24,7 +24,7 @@ public class ReadLock implements Lock {
     @Override
     public boolean acquire() {
         try {
-            rLock=redissonClient.getReadWriteLock(lockInfo.getName());
+            rLock = redissonClient.getReadWriteLock(lockInfo.getName());
             return rLock.readLock().tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             return false;
@@ -33,10 +33,11 @@ public class ReadLock implements Lock {
 
     @Override
     public void release() {
-        if(rLock.readLock().isHeldByCurrentThread()){
+        if (rLock.readLock().isHeldByCurrentThread()) {
             rLock.readLock().unlockAsync();
         }
     }
+
     public LockInfo getLockInfo() {
         return lockInfo;
     }

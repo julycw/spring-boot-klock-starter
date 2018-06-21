@@ -10,7 +10,7 @@
     <description>The kLock Project</description>
 
     <properties>
-        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.7</java.version>
@@ -23,6 +23,13 @@
         </license>
     </licenses>
     <developers>
+        <developer>
+            <name>july</name>
+            <email>julycw@163.com</email>
+            <organization>诚道科技</organization>
+            <organizationUrl>http://www.trustway.cn/</organizationUrl>
+            <url>http://www.trustway.cn/</url>
+        </developer>
         <developer>
             <name>kl</name>
             <email>632104866@qq.com</email>
@@ -72,7 +79,7 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>3.2.0</version>
+            <version>3.7.2</version>
         </dependency>
     </dependencies>
 
@@ -115,17 +122,19 @@
             </plugin>
         </plugins>
     </build>
+
     <!-- distribute目录 -->
     <distributionManagement>
         <repository>
-            <id>repo</id>
-            <name>User Project Releases</name>
-            <url>http://192.168.1.204:8081/nexus/content/repositories/releases</url>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://192.168.2.33:8081/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>repo</id>
-            <name>User Project SNAPSHOTS</name>
-            <url>http://192.168.1.204:8081/nexus/content/repositories/snapshots</url>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://192.168.2.33:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+
 </project>

@@ -1,11 +1,11 @@
 package org.springframework.boot.autoconfigure.klock.core;
 
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.klock.annotation.Klock;
 import org.springframework.boot.autoconfigure.klock.config.KlockConfig;
 import org.springframework.boot.autoconfigure.klock.model.LockInfo;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.boot.autoconfigure.klock.model.LockType;
 
 /**
@@ -23,14 +23,14 @@ public class LockInfoProvider {
     @Autowired
     private BusinessKeyProvider businessKeyProvider;
 
-    public LockInfo get(ProceedingJoinPoint joinPoint,Klock klock) {
+    public LockInfo get(ProceedingJoinPoint joinPoint, Klock klock) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        LockType type= klock.lockType();
-        String businessKeyName=businessKeyProvider.getKeyName(joinPoint,klock);
-        String lockName = LOCK_NAME_PREFIX+LOCK_NAME_SEPARATOR+getName(klock.name(), signature)+businessKeyName;
+        LockType type = klock.lockType();
+        String businessKeyName = businessKeyProvider.getKeyName(joinPoint, klock);
+        String lockName = LOCK_NAME_PREFIX + LOCK_NAME_SEPARATOR + getName(klock.name(), signature) + businessKeyName;
         long waitTime = getWaitTime(klock);
         long leaseTime = getLeaseTime(klock);
-        return new LockInfo(type,lockName,waitTime,leaseTime);
+        return new LockInfo(type, lockName, waitTime, leaseTime);
     }
 
     private String getName(String annotationName, MethodSignature signature) {

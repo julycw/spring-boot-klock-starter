@@ -20,10 +20,11 @@ public class ReentrantLock implements Lock {
     public ReentrantLock(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
     }
+
     @Override
     public boolean acquire() {
         try {
-            rLock=redissonClient.getLock(lockInfo.getName());
+            rLock = redissonClient.getLock(lockInfo.getName());
             return rLock.tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             return false;
@@ -32,7 +33,7 @@ public class ReentrantLock implements Lock {
 
     @Override
     public void release() {
-        if(rLock.isHeldByCurrentThread()){
+        if (rLock.isHeldByCurrentThread()) {
             rLock.unlockAsync();
         }
 

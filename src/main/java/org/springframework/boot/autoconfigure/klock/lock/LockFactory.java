@@ -13,14 +13,13 @@ import org.springframework.boot.autoconfigure.klock.model.LockType;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by kl on 2017/12/29.
  * Content :
  */
-public class LockFactory  {
-    Logger logger= LoggerFactory.getLogger(getClass());
+public class LockFactory {
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private RedissonClient redissonClient;
@@ -28,19 +27,19 @@ public class LockFactory  {
     @Autowired
     private LockInfoProvider lockInfoProvider;
 
-    private static final Map<LockType,Lock> lockMap= new HashMap<>();
+    private static final Map<LockType, Lock> lockMap = new HashMap<>();
 
     @PostConstruct
-    public void init(){
-        lockMap.put(LockType.Reentrant,new ReentrantLock(redissonClient));
-        lockMap.put(LockType.Fair,new FairLock(redissonClient));
-        lockMap.put(LockType.Read,new ReadLock(redissonClient));
-        lockMap.put(LockType.Write,new WriteLock(redissonClient));
+    public void init() {
+        lockMap.put(LockType.Reentrant, new ReentrantLock(redissonClient));
+        lockMap.put(LockType.Fair, new FairLock(redissonClient));
+        lockMap.put(LockType.Read, new ReadLock(redissonClient));
+        lockMap.put(LockType.Write, new WriteLock(redissonClient));
         logger.info("Klock Initialization Successful");
     }
 
-    public Lock getLock(ProceedingJoinPoint joinPoint, Klock klock){
-        LockInfo lockInfo = lockInfoProvider.get(joinPoint,klock);
+    public Lock getLock(ProceedingJoinPoint joinPoint, Klock klock) {
+        LockInfo lockInfo = lockInfoProvider.get(joinPoint, klock);
         return lockMap.get(lockInfo.getType()).setLockInfo(lockInfo);
     }
 

@@ -35,7 +35,7 @@ public class BusinessKeyProvider {
         keyList.addAll(definitionKeys);
         List<String> parameterKeys = getParameterKey(method.getParameters(), joinPoint.getArgs());
         keyList.addAll(parameterKeys);
-        return StringUtils.collectionToDelimitedString(keyList,"","-","");
+        return StringUtils.collectionToDelimitedString(keyList, "", "-", "");
     }
 
     private Method getMethod(ProceedingJoinPoint joinPoint) {

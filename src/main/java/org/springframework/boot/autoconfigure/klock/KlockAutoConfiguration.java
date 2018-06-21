@@ -37,32 +37,32 @@ public class KlockAutoConfiguration {
     @ConditionalOnMissingBean
     RedissonClient redisson() throws Exception {
         Config config = new Config();
-        if(klockConfig.getClusterServer()!=null){
+        if (klockConfig.getClusterServer() != null) {
             config.useClusterServers().setPassword(klockConfig.getPassword())
                     .addNodeAddress(klockConfig.getClusterServer().getNodeAddresses());
-        }else {
+        } else {
             config.useSingleServer().setAddress(klockConfig.getAddress())
                     .setDatabase(klockConfig.getDatabase())
                     .setPassword(klockConfig.getPassword());
         }
-        Codec codec=(Codec) ClassUtils.forName(klockConfig.getCodec(),ClassUtils.getDefaultClassLoader()).newInstance();
+        Codec codec = (Codec) ClassUtils.forName(klockConfig.getCodec(), ClassUtils.getDefaultClassLoader()).newInstance();
         config.setCodec(codec);
         config.setEventLoopGroup(new NioEventLoopGroup());
         return Redisson.create(config);
     }
 
     @Bean
-    public LockInfoProvider lockInfoProvider(){
+    public LockInfoProvider lockInfoProvider() {
         return new LockInfoProvider();
     }
 
     @Bean
-    public BusinessKeyProvider businessKeyProvider(){
+    public BusinessKeyProvider businessKeyProvider() {
         return new BusinessKeyProvider();
     }
 
     @Bean
-    public LockFactory lockFactory(){
+    public LockFactory lockFactory() {
         return new LockFactory();
     }
 }

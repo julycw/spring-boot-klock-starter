@@ -22,7 +22,7 @@ public class KlockAspectHandler {
 
     @Around(value = "@annotation(klock)")
     public Object around(ProceedingJoinPoint joinPoint, Klock klock) throws Throwable {
-        Lock lock = lockFactory.getLock(joinPoint,klock);
+        Lock lock = lockFactory.getLock(joinPoint, klock);
         boolean currentThreadLock = false;
         try {
             currentThreadLock = lock.acquire();

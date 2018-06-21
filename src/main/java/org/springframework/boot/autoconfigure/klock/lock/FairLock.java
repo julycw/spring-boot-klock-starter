@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class FairLock implements Lock {
 
     private RLock rLock;
-    
+
     private LockInfo lockInfo;
 
     private RedissonClient redissonClient;
@@ -24,7 +24,7 @@ public class FairLock implements Lock {
     @Override
     public boolean acquire() {
         try {
-            rLock=redissonClient.getFairLock(lockInfo.getName());
+            rLock = redissonClient.getFairLock(lockInfo.getName());
             return rLock.tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             return false;
@@ -33,7 +33,7 @@ public class FairLock implements Lock {
 
     @Override
     public void release() {
-        if(rLock.isHeldByCurrentThread()){
+        if (rLock.isHeldByCurrentThread()) {
             rLock.unlockAsync();
         }
     }
