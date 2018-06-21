@@ -1,15 +1,15 @@
-package org.springframework.boot.autoconfigure.klock.lock;
+package org.springframework.boot.autoconfigure.redislock.lock;
 
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.boot.autoconfigure.klock.model.LockInfo;
+import org.springframework.boot.autoconfigure.redislock.model.LockInfo;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by kl on 2017/12/29.
  */
-public class ReentrantLock implements Lock {
+public class FairLock implements Lock {
 
     private RLock rLock;
 
@@ -17,14 +17,14 @@ public class ReentrantLock implements Lock {
 
     private RedissonClient redissonClient;
 
-    public ReentrantLock(RedissonClient redissonClient) {
+    public FairLock(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
     }
 
     @Override
     public boolean acquire() {
         try {
-            rLock = redissonClient.getLock(lockInfo.getName());
+            rLock = redissonClient.getFairLock(lockInfo.getName());
             return rLock.tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             return false;
@@ -36,11 +36,6 @@ public class ReentrantLock implements Lock {
         if (rLock.isHeldByCurrentThread()) {
             rLock.unlockAsync();
         }
-
-    }
-
-    public LockInfo getLockInfo() {
-        return lockInfo;
     }
 
     public Lock setLockInfo(LockInfo lockInfo) {

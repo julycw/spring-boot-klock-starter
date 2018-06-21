@@ -1,12 +1,12 @@
-package org.springframework.boot.autoconfigure.klock.core;
+package org.springframework.boot.autoconfigure.redislock.core;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.klock.annotation.Klock;
-import org.springframework.boot.autoconfigure.klock.config.KlockConfig;
-import org.springframework.boot.autoconfigure.klock.model.LockInfo;
-import org.springframework.boot.autoconfigure.klock.model.LockType;
+import org.springframework.boot.autoconfigure.redislock.annotation.Lock;
+import org.springframework.boot.autoconfigure.redislock.config.LockConfig;
+import org.springframework.boot.autoconfigure.redislock.model.LockInfo;
+import org.springframework.boot.autoconfigure.redislock.model.LockType;
 
 /**
  * Created by kl on 2017/12/29.
@@ -18,18 +18,18 @@ public class LockInfoProvider {
 
 
     @Autowired
-    private KlockConfig klockConfig;
+    private LockConfig lockConfig;
 
     @Autowired
     private BusinessKeyProvider businessKeyProvider;
 
-    public LockInfo get(ProceedingJoinPoint joinPoint, Klock klock) {
+    public LockInfo get(ProceedingJoinPoint joinPoint, Lock lock) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        LockType type = klock.lockType();
-        String businessKeyName = businessKeyProvider.getKeyName(joinPoint, klock);
-        String lockName = LOCK_NAME_PREFIX + LOCK_NAME_SEPARATOR + getName(klock.name(), signature) + businessKeyName;
-        long waitTime = getWaitTime(klock);
-        long leaseTime = getLeaseTime(klock);
+        LockType type = lock.lockType();
+        String businessKeyName = businessKeyProvider.getKeyName(joinPoint, lock);
+        String lockName = LOCK_NAME_PREFIX + LOCK_NAME_SEPARATOR + getName(lock.name(), signature) + businessKeyName;
+        long waitTime = getWaitTime(lock);
+        long leaseTime = getLeaseTime(lock);
         return new LockInfo(type, lockName, waitTime, leaseTime);
     }
 
@@ -42,13 +42,13 @@ public class LockInfoProvider {
     }
 
 
-    private long getWaitTime(Klock lock) {
+    private long getWaitTime(Lock lock) {
         return lock.waitTime() == Long.MIN_VALUE ?
-                klockConfig.getWaitTime() : lock.waitTime();
+                lockConfig.getWaitTime() : lock.waitTime();
     }
 
-    private long getLeaseTime(Klock lock) {
+    private long getLeaseTime(Lock lock) {
         return lock.leaseTime() == Long.MIN_VALUE ?
-                klockConfig.getLeaseTime() : lock.leaseTime();
+                lockConfig.getLeaseTime() : lock.leaseTime();
     }
 }

@@ -1,4 +1,4 @@
-package org.springframework.boot.autoconfigure.klock.test;
+package org.springframework.boot.autoconfigure.redislock.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Created by kl on 2017/12/31.
  */
 @SpringBootApplication
-public class KlockTestApplication {
+public class LockTestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(KlockTestApplication.class, args);
+        SpringApplication.run(LockTestApplication.class, args);
     }
 
 }

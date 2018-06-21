@@ -1,6 +1,6 @@
-package org.springframework.boot.autoconfigure.klock.lock;
+package org.springframework.boot.autoconfigure.redislock.lock;
 
-import org.springframework.boot.autoconfigure.klock.model.LockInfo;
+import org.springframework.boot.autoconfigure.redislock.model.LockInfo;
 
 /**
  * Created by kl on 2017/12/29.

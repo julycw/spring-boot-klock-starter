@@ -1,4 +1,4 @@
-package org.springframework.boot.autoconfigure.klock;
+package org.springframework.boot.autoconfigure.redislock;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 import org.redisson.Redisson;
@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.klock.config.KlockConfig;
-import org.springframework.boot.autoconfigure.klock.core.BusinessKeyProvider;
-import org.springframework.boot.autoconfigure.klock.core.KlockAspectHandler;
-import org.springframework.boot.autoconfigure.klock.core.LockInfoProvider;
-import org.springframework.boot.autoconfigure.klock.lock.LockFactory;
+import org.springframework.boot.autoconfigure.redislock.config.LockConfig;
+import org.springframework.boot.autoconfigure.redislock.core.BusinessKeyProvider;
+import org.springframework.boot.autoconfigure.redislock.core.LockAspectHandler;
+import org.springframework.boot.autoconfigure.redislock.core.LockInfoProvider;
+import org.springframework.boot.autoconfigure.redislock.lock.LockFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,26 +26,26 @@ import org.springframework.util.ClassUtils;
  */
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-@EnableConfigurationProperties(KlockConfig.class)
-@Import({KlockAspectHandler.class})
-public class KlockAutoConfiguration {
+@EnableConfigurationProperties(LockConfig.class)
+@Import({LockAspectHandler.class})
+public class LockAutoConfiguration {
 
     @Autowired
-    private KlockConfig klockConfig;
+    private LockConfig lockConfig;
 
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean
     RedissonClient redisson() throws Exception {
         Config config = new Config();
-        if (klockConfig.getClusterServer() != null) {
-            config.useClusterServers().setPassword(klockConfig.getPassword())
-                    .addNodeAddress(klockConfig.getClusterServer().getNodeAddresses());
+        if (lockConfig.getClusterServer() != null) {
+            config.useClusterServers().setPassword(lockConfig.getPassword())
+                    .addNodeAddress(lockConfig.getClusterServer().getNodeAddresses());
         } else {
-            config.useSingleServer().setAddress(klockConfig.getAddress())
-                    .setDatabase(klockConfig.getDatabase())
-                    .setPassword(klockConfig.getPassword());
+            config.useSingleServer().setAddress(lockConfig.getAddress())
+                    .setDatabase(lockConfig.getDatabase())
+                    .setPassword(lockConfig.getPassword());
         }
-        Codec codec = (Codec) ClassUtils.forName(klockConfig.getCodec(), ClassUtils.getDefaultClassLoader()).newInstance();
+        Codec codec = (Codec) ClassUtils.forName(lockConfig.getCodec(), ClassUtils.getDefaultClassLoader()).newInstance();
         config.setCodec(codec);
         config.setEventLoopGroup(new NioEventLoopGroup());
         return Redisson.create(config);

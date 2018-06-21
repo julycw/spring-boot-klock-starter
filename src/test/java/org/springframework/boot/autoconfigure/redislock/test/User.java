@@ -1,4 +1,4 @@
-package org.springframework.boot.autoconfigure.klock.test;
+package org.springframework.boot.autoconfigure.redislock.test;
 
 public class User {
     private int id;

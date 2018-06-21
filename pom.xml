@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-klock-starter</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <description>The kLock Project</description>
+    <artifactId>spring-boot-redis-lock-starter</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <description>The Redis Lock Project</description>
 
     <properties>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>

@@ -1,9 +1,9 @@
-package org.springframework.boot.autoconfigure.klock.core;
+package org.springframework.boot.autoconfigure.redislock.core;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.boot.autoconfigure.klock.annotation.Klock;
-import org.springframework.boot.autoconfigure.klock.annotation.KlockKey;
+import org.springframework.boot.autoconfigure.redislock.annotation.Lock;
+import org.springframework.boot.autoconfigure.redislock.annotation.LockKey;
 import org.springframework.context.expression.MethodBasedEvaluationContext;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -28,10 +28,10 @@ public class BusinessKeyProvider {
 
     private ExpressionParser parser = new SpelExpressionParser();
 
-    public String getKeyName(ProceedingJoinPoint joinPoint, Klock klock) {
+    public String getKeyName(ProceedingJoinPoint joinPoint, Lock lock) {
         List<String> keyList = new ArrayList<>();
         Method method = getMethod(joinPoint);
-        List<String> definitionKeys = getSpelDefinitionKey(klock.keys(), method, joinPoint.getArgs());
+        List<String> definitionKeys = getSpelDefinitionKey(lock.keys(), method, joinPoint.getArgs());
         keyList.addAll(definitionKeys);
         List<String> parameterKeys = getParameterKey(method.getParameters(), joinPoint.getArgs());
         keyList.addAll(parameterKeys);
@@ -67,8 +67,8 @@ public class BusinessKeyProvider {
     private List<String> getParameterKey(Parameter[] parameters, Object[] parameterValues) {
         List<String> parameterKey = new ArrayList<>();
         for (int i = 0; i < parameters.length; i++) {
-            if (parameters[i].getAnnotation(KlockKey.class) != null) {
-                KlockKey keyAnnotation = parameters[i].getAnnotation(KlockKey.class);
+            if (parameters[i].getAnnotation(LockKey.class) != null) {
+                LockKey keyAnnotation = parameters[i].getAnnotation(LockKey.class);
                 if (keyAnnotation.value().isEmpty()) {
                     parameterKey.add(parameterValues[i].toString());
                 } else {

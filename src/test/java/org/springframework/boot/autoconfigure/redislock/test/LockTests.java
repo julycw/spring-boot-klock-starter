@@ -1,4 +1,4 @@
-package org.springframework.boot.autoconfigure.klock.test;
+package org.springframework.boot.autoconfigure.redislock.test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,8 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = KlockTestApplication.class)
-public class KlockTests {
+@SpringBootTest(classes = LockTestApplication.class)
+public class LockTests {
 
     @Autowired
     TestService testService;

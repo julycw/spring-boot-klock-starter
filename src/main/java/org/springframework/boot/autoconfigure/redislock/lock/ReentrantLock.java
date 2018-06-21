@@ -1,31 +1,31 @@
-package org.springframework.boot.autoconfigure.klock.lock;
+package org.springframework.boot.autoconfigure.redislock.lock;
 
-import org.redisson.api.RReadWriteLock;
+import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.boot.autoconfigure.klock.model.LockInfo;
+import org.springframework.boot.autoconfigure.redislock.model.LockInfo;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by kl on 2017/12/29.
  */
-public class ReadLock implements Lock {
+public class ReentrantLock implements Lock {
 
-    private RReadWriteLock rLock;
+    private RLock rLock;
 
     private LockInfo lockInfo;
 
     private RedissonClient redissonClient;
 
-    public ReadLock(RedissonClient redissonClient) {
+    public ReentrantLock(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
     }
 
     @Override
     public boolean acquire() {
         try {
-            rLock = redissonClient.getReadWriteLock(lockInfo.getName());
-            return rLock.readLock().tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), TimeUnit.SECONDS);
+            rLock = redissonClient.getLock(lockInfo.getName());
+            return rLock.tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             return false;
         }
@@ -33,9 +33,10 @@ public class ReadLock implements Lock {
 
     @Override
     public void release() {
-        if (rLock.readLock().isHeldByCurrentThread()) {
-            rLock.readLock().unlockAsync();
+        if (rLock.isHeldByCurrentThread()) {
+            rLock.unlockAsync();
         }
+
     }
 
     public LockInfo getLockInfo() {
@@ -45,6 +46,5 @@ public class ReadLock implements Lock {
     public Lock setLockInfo(LockInfo lockInfo) {
         this.lockInfo = lockInfo;
         return this;
-
     }
 }

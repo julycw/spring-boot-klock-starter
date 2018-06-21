@@ -1,14 +1,14 @@
-package org.springframework.boot.autoconfigure.klock.lock;
+package org.springframework.boot.autoconfigure.redislock.lock;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.klock.annotation.Klock;
-import org.springframework.boot.autoconfigure.klock.core.LockInfoProvider;
-import org.springframework.boot.autoconfigure.klock.model.LockInfo;
-import org.springframework.boot.autoconfigure.klock.model.LockType;
+import org.springframework.boot.autoconfigure.redislock.annotation.Lock;
+import org.springframework.boot.autoconfigure.redislock.core.LockInfoProvider;
+import org.springframework.boot.autoconfigure.redislock.model.LockInfo;
+import org.springframework.boot.autoconfigure.redislock.model.LockType;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class LockFactory {
     @Autowired
     private LockInfoProvider lockInfoProvider;
 
-    private static final Map<LockType, Lock> lockMap = new HashMap<>();
+    private static final Map<LockType, org.springframework.boot.autoconfigure.redislock.lock.Lock> lockMap = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -35,11 +35,11 @@ public class LockFactory {
         lockMap.put(LockType.Fair, new FairLock(redissonClient));
         lockMap.put(LockType.Read, new ReadLock(redissonClient));
         lockMap.put(LockType.Write, new WriteLock(redissonClient));
-        logger.info("Klock Initialization Successful");
+        logger.info("Lock Initialization Successful");
     }
 
-    public Lock getLock(ProceedingJoinPoint joinPoint, Klock klock) {
-        LockInfo lockInfo = lockInfoProvider.get(joinPoint, klock);
+    public org.springframework.boot.autoconfigure.redislock.lock.Lock getLock(ProceedingJoinPoint joinPoint, Lock lock) {
+        LockInfo lockInfo = lockInfoProvider.get(joinPoint, lock);
         return lockMap.get(lockInfo.getType()).setLockInfo(lockInfo);
     }
 

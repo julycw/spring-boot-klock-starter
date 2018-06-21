@@ -1,4 +1,4 @@
-package org.springframework.boot.autoconfigure.klock.model;
+package org.springframework.boot.autoconfigure.redislock.model;
 
 /**
  * Created by kl on 2017/12/29.

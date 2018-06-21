@@ -1,6 +1,6 @@
-package org.springframework.boot.autoconfigure.klock.annotation;
+package org.springframework.boot.autoconfigure.redislock.annotation;
 
-import org.springframework.boot.autoconfigure.klock.model.LockType;
+import org.springframework.boot.autoconfigure.redislock.model.LockType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Target(value = {ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface Klock {
+public @interface Lock {
     /**
      * 锁的名称
      *

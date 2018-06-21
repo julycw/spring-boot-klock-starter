@@ -1,8 +1,8 @@
-package org.springframework.boot.autoconfigure.klock.lock;
+package org.springframework.boot.autoconfigure.redislock.lock;
 
 import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.boot.autoconfigure.klock.model.LockInfo;
+import org.springframework.boot.autoconfigure.redislock.model.LockInfo;
 
 import java.util.concurrent.TimeUnit;
 

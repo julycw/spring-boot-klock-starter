@@ -1,4 +1,4 @@
-package org.springframework.boot.autoconfigure.klock.annotation;
+package org.springframework.boot.autoconfigure.redislock.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
  */
 @Target(value = {ElementType.PARAMETER, ElementType.TYPE})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface KlockKey {
+public @interface LockKey {
     String value() default "";
 }

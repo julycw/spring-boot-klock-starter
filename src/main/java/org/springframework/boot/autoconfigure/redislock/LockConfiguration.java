@@ -1,10 +1,10 @@
-package org.springframework.boot.autoconfigure.klock;
+package org.springframework.boot.autoconfigure.redislock;
 
-import org.springframework.boot.autoconfigure.klock.config.KlockConfig;
-import org.springframework.boot.autoconfigure.klock.core.BusinessKeyProvider;
-import org.springframework.boot.autoconfigure.klock.core.KlockAspectHandler;
-import org.springframework.boot.autoconfigure.klock.core.LockInfoProvider;
-import org.springframework.boot.autoconfigure.klock.lock.LockFactory;
+import org.springframework.boot.autoconfigure.redislock.config.LockConfig;
+import org.springframework.boot.autoconfigure.redislock.core.BusinessKeyProvider;
+import org.springframework.boot.autoconfigure.redislock.core.LockAspectHandler;
+import org.springframework.boot.autoconfigure.redislock.core.LockInfoProvider;
+import org.springframework.boot.autoconfigure.redislock.lock.LockFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Import;
  * Content :适用于内部低版本spring mvc项目配置,redisson外化配置
  */
 @Configuration
-@Import({KlockAspectHandler.class})
-public class KlockConfiguration {
+@Import({LockAspectHandler.class})
+public class LockConfiguration {
     @Bean
     public LockInfoProvider lockInfoProvider() {
         return new LockInfoProvider();
@@ -32,7 +32,7 @@ public class KlockConfiguration {
     }
 
     @Bean
-    public KlockConfig klockConfig() {
-        return new KlockConfig();
+    public LockConfig klockConfig() {
+        return new LockConfig();
     }
 }

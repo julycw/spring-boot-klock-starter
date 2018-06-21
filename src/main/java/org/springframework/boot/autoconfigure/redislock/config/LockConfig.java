@@ -1,14 +1,14 @@
-package org.springframework.boot.autoconfigure.klock.config;
+package org.springframework.boot.autoconfigure.redislock.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Created by kl on 2017/12/29.
  */
-@ConfigurationProperties(prefix = KlockConfig.PREFIX)
-public class KlockConfig {
+@ConfigurationProperties(prefix = LockConfig.PREFIX)
+public class LockConfig {
 
-    public static final String PREFIX = "spring.klock";
+    public static final String PREFIX = "spring.lock";
     //redisson
     private String address;
     private String password;
