@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 /**
  * Created by kl on 2017/12/29.
  * Content :给添加@KLock切面加锁处理
+ *
+ * Modify by july on 2018/07/27
+ * Content: 在waitTimeout超时后，抛出异常，而不是执行
  */
 @Aspect
 @Component
@@ -25,7 +28,12 @@ public class LockAspectHandler {
         boolean currentThreadLock = false;
         try {
             currentThreadLock = lock.acquire();
-            return joinPoint.proceed();
+            if (currentThreadLock) {
+                return joinPoint.proceed();
+            } else {
+                String name = !klock.name().equals("") ? klock.name(): "undefined";
+                throw new RuntimeException("lock acquire failed because wait timeout, lock name: " + name);
+            }
         } finally {
             if (currentThreadLock) {
                 lock.release();

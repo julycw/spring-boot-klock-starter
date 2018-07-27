@@ -29,10 +29,9 @@ public class BusinessKeyProvider {
     private ExpressionParser parser = new SpelExpressionParser();
 
     public String getKeyName(ProceedingJoinPoint joinPoint, Lock lock) {
-        List<String> keyList = new ArrayList<>();
         Method method = getMethod(joinPoint);
         List<String> definitionKeys = getSpelDefinitionKey(lock.keys(), method, joinPoint.getArgs());
-        keyList.addAll(definitionKeys);
+        List<String> keyList = new ArrayList<>(definitionKeys);
         List<String> parameterKeys = getParameterKey(method.getParameters(), joinPoint.getArgs());
         keyList.addAll(parameterKeys);
         return StringUtils.collectionToDelimitedString(keyList, "", "-", "");
