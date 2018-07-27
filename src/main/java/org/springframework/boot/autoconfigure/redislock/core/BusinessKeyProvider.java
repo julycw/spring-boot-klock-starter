@@ -30,11 +30,12 @@ public class BusinessKeyProvider {
 
     public String getKeyName(ProceedingJoinPoint joinPoint, Lock lock) {
         Method method = getMethod(joinPoint);
+
         List<String> definitionKeys = getSpelDefinitionKey(lock.keys(), method, joinPoint.getArgs());
         List<String> keyList = new ArrayList<>(definitionKeys);
         List<String> parameterKeys = getParameterKey(method.getParameters(), joinPoint.getArgs());
         keyList.addAll(parameterKeys);
-        return StringUtils.collectionToDelimitedString(keyList, "", "-", "");
+        return StringUtils.collectionToDelimitedString(keyList, "", "-" + method.getDeclaringClass().getName() + "-", "");
     }
 
     private Method getMethod(ProceedingJoinPoint joinPoint) {
