@@ -18,6 +18,8 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.boot.autoconfigure.redislock.core.LockInfoProvider.LOCK_NAME_SEPARATOR;
+
 /**
  * Created by kl on 2018/1/24.
  * Content :获取用户定义业务key
@@ -35,7 +37,7 @@ public class BusinessKeyProvider {
         List<String> keyList = new ArrayList<>(definitionKeys);
         List<String> parameterKeys = getParameterKey(method.getParameters(), joinPoint.getArgs());
         keyList.addAll(parameterKeys);
-        return StringUtils.collectionToDelimitedString(keyList, "", "-" + method.getDeclaringClass().getName() + "-", "");
+        return StringUtils.collectionToDelimitedString(keyList, ",", LOCK_NAME_SEPARATOR + method.getDeclaringClass().getName() + LOCK_NAME_SEPARATOR, "");
     }
 
     private Method getMethod(ProceedingJoinPoint joinPoint) {

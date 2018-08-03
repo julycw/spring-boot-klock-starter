@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.redislock.model.LockType;
 public class LockInfoProvider {
 
     public static final String LOCK_NAME_PREFIX = "lock";
-    public static final String LOCK_NAME_SEPARATOR = ".";
+    public static final String LOCK_NAME_SEPARATOR = ":";
 
 
     @Autowired
@@ -35,7 +35,7 @@ public class LockInfoProvider {
 
     private String getName(String annotationName, MethodSignature signature) {
         if (annotationName.isEmpty()) {
-            return String.format("%s.%s", signature.getDeclaringTypeName(), signature.getMethod().getName());
+            return String.format("%s%s%s", signature.getDeclaringTypeName(), LOCK_NAME_SEPARATOR, signature.getMethod().getName());
         } else {
             return annotationName;
         }
