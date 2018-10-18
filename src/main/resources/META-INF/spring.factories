@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.boot.autoconfigure.redislock.LockAutoConfiguration
+cn.trustway.nb.redislock.LockAutoConfiguration
